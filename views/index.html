@@ -132,9 +132,9 @@
 <script src="../static/js/bootstrap.js"></script>
 <script src="../static/js/template-web.js"></script>
 <script type="text/template" id="tp">
-    {{each $data val}}
+    {{each $data val index}}
     <tr>
-            <td>{{val.id}}</td>
+            <td>{{++index}}</td>
             <td>{{val.name}}</td>
             <td>{{val.gender}}</td>
             <td><img src="../static/images/{{val.img}}"></td>

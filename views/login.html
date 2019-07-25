@@ -61,7 +61,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
-                        账号或者密码有误，登录失败
+                        用户名不能为空
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -72,65 +72,92 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modelId1" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">提示</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        密码不能为空
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">确定</button>
+                    <!-- <button type="button" class="btn btn-primary">Save</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modelId2" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">提示</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        登录成功
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">确定</button> -->
+                    <button type="button" class="btn btn-primary">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modelId3" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">提示</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        账户名或者密码错误
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">确定</button>
+                    <!-- <button type="button" class="btn btn-primary">确定</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
-<!-- <script src="../static/js/jquery.js"></script>
-<script src="../static/js/ajax.js"></script>
-<script>
-    /*
-        实现登录：
-            使用ajax请求，请求登录的接口，看返回的结果是什么
-            如果登录成功，就跳转到主页
-    */
 
-    $('#login-btn').on('click',function(){
-        let userName = $('#userName').val();
-        if(userName.trim().length ===0){
-            alert('用户名不能为空');
-            return;
-        }
-
-        let password = $('#password').val();
-        if(password.trim().length ===0){
-            alert('密码不能为空');
-            return;
-        }
-
-        //收取表单数据
-        let data = $('form').serialize();
-        ajax({
-            type: 'post',
-            url: 'http://127.0.0.1:8080/doLogin',
-            data: data,
-            callback: function(res){
-                res = JSON.parse(res)
-                if(res.code === 200){
-                    localStorage.setItem('userId',res.userId);
-                    alert('登陆成功');
-                    location.href= './index.html';
-                }else{
-                    alert(res.msg);
-                }
-            }
-        })
-
-    })
-
-</script> -->
 
 <script src="../static/js/ajax.js"></script>
 <script src="../static/js/jquery.js"></script>
+<script src="../static/js/bootstrap.js"></script>
 <script>
     $('#login-btn').on('click', function () {
 
         let userName = $('#userName').val();
         if (userName.trim().length === 0) {
-            alert('用户名不能为空');
+            // alert('用户名不能为空');
+            $('#modelId').modal();
             return;
         }
 
         let password = $('#password').val();
         if (password.trim().length === 0) {
-            alert('密码不能为空');
+            // alert('密码不能为空');
+            $('#modelId1').modal();
             return;
         }
 
@@ -146,11 +173,16 @@
                 if (res.code === 200) {
                     //把用户的id存储
                     localStorage.setItem('userId', res.userId);
-                    alert('登录成功');
-                    location.href = './index.html';
+                    // alert('登录成功');
+                    $('#modelId2').modal();
+                    $('.btn-primary').on('click',function(){
+                        location.href = './index.html';
+                    })
+                    // 
 
                 } else {
-                    alert(res.msg);
+                    // alert(res.msg);
+                    $('#modelId3').modal();
                 }
             }
         })

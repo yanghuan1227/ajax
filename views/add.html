@@ -50,14 +50,14 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">提水</h5>
+                    <h5 class="modal-title">提示</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
-                        新增失败
+                        新增成功
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -66,6 +66,28 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="modelId1" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">提示</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        用户名不能为空
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     
 </body>
@@ -113,8 +135,8 @@
     //实现新增的效果
     $('#sub').on('click', function () {
         //非空判断
-        if ($('tbody input[type=text]').val().trim().length === 0) {
-            alert('用户名不能为空');        
+        if ($('tbody input[type=text]').val().trim().length === 0) {    
+            $('#modelId1').modal();
             return;
         }
         //获取表单的数据
@@ -125,8 +147,10 @@
             data: data,
             success: function (res) {
                 if (res.code === 200) {
-                    alert('新增成功');
-                    location.href = './index.html'
+                    $('#modelId').modal()
+                    $('.btn-secondary').on('click',function(){
+                        location.href = './index.html'
+                    })
                 }
             }
         })
