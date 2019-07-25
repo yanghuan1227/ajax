@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+<script>
+// 这样封装使用起来不方便
+/*
+  确定：
+    1.不一定所有的请求都带参数 - 默认值
+    2.多个参数传递按照一定的顺序就比较复杂 - 使用无序传参 - 对象传参
+*/
+
+/*
+  options 是一个对象 - 
+    -要求的属性是4个
+      type,url,data,callback
+*/
+
+function ajax (options){
+    options = options || {};
+    options.type = options.type || 'get';
+    options.url = options.url || '';
+    options.callback = options.callback || function(res){
+        console.log('你的回调函数没给，我们不建议这样干');
+        console.log(res);
+    }
+
+    let xhr = new XMLHttpRequest();
+
+    if(options.type === 'get'){
+        options.url += '?' + options.data;
+    }
+    xhr.open(options.type,options.url);
+
+    if(options.type === 'post'){
+        xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+        xhr.send(options.data);
+    }else{
+        xhr.send();
+    }
+
+    xhr.onreadystatechange = function(){
+        if(xhr.readyState === 4){
+            if(xhr.status === 200){
+                options.callback(xhr.responseText);
+            }
+        }
+    }
+
+}
+
+// ajax({
+//         type: 'get',
+//         url: 'http://127.0.0.1:8080/isUserNameExist',
+//         data: 'userName=123',
+//         callback: function (res) {
+//             console.log(res)
+//         }
+//     })
+
+ajax({
+    url: 'http://127.0.0.1:8080/getCodeWithoutPhone',
+    // callback : function(res){
+    //     console.log(res);
+    //     console.log('这是我们自己的回调');
+    // }
+})
+
+</script>
+</html>

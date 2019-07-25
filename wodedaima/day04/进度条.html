@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../static/css/bootstrap.css">
+</head>
+<style>
+    .progress {
+        width: 60%;
+        margin: 100px auto;
+    }
+</style>
+
+<body>
+    <input type="file" id="btn">
+    <div class="progress">
+        <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+            style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Description</div>
+    </div>
+</body>
+
+<script>
+    let btn = document.querySelector('#btn');
+    let bar = querySelector('.progress-bar');
+    btn.onchange = function(){
+        let file = this.files[0];
+        let fd = new FormData();
+        fd.append('pic',file);
+        
+        let xhr = new XMLHttpRequest();
+        xhr.open('post','http://127.0.0.1:8080/uploadHeadImg');
+        xhr.upload.onprogress = function(e){
+            let parcent = parseInt(e.loaded / e.total *10000) /100 + '%';
+            bar.style.width = parcent;
+            bar.innerText = parcent;
+        }
+        xhr.send(fd);
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState ===4 && xhr.status === 200){
+                let res = JSON.parse(res);
+                console.log(res)
+            }
+        }
+
+    }
+</script>
+</html>
